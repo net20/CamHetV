@@ -475,10 +475,10 @@ info.nop = nop;
 %print warning if there are wrong values because they are lying outside
 %the AD converter digitization window:
 if length(ind_over) %#ok
-    warning('WFM2read:OverRangeValues',[int2str(length(ind_over)), ' over range value(s) in file ' filename]); %#ok
+    warning('WFM2read:OverRangeValues', '%d over range value(s) in file %s', length(ind_over), filename);
 end
 if length(ind_under) %#ok
-    warning('WFM2read:UnderRangeValues',[int2str(length(ind_under)), ' under range value(s) in file ' filename]); %#ok
+    warning('WFM2read:UnderRangeValues', '%d under range value(s) in file %s', length(ind_under), filename);
 end
 
 if (info.N>0) && (nargout==6) %if file contains fast frame data and it is requested as output
