@@ -197,7 +197,7 @@ info.horizontal_zoom_position = fread(fid,1,'*float32',byteorder);
 info.vertical_zoom_scale_factor = fread(fid,1,'*double',byteorder);
 info.vertical_zoom_position = fread(fid,1,'*float32',byteorder);
 dummy=fread(fid,32,'*uint8',byteorder);
-info.waveform_label = char(dummy(1:find(dummy==0)));         %read units until NULL string (suggested by Tom Gaudette)
+info.waveform_label = char(dummy(1:find(dummy==0, 1, "first")));         %read units until NULL string (suggested by Tom Gaudette)
 info.N = fread(fid,1,'*uint32',byteorder);
 info.size_of_waveform_header = fread(fid,1,'*uint16',byteorder);
 
@@ -228,7 +228,7 @@ info.ed1.dim_scale = fread(fid,1,'*double',byteorder);
 info.ed1.dim_offset = fread(fid,1,'*double',byteorder);
 info.ed1.dim_size = fread(fid,1,'*uint32',byteorder);
 dummy=fread(fid,20,'*uint8',byteorder);
-info.ed1.units = char(dummy(1:find(dummy==0)));         %read units until NULL string (suggested by Tom Gaudette)
+info.ed1.units = char(dummy(1:find(dummy==0, 1, "first")));         %read units until NULL string (suggested by Tom Gaudette)
 info.ed1.dim_extent_min = fread(fid,1,'*double',byteorder);
 info.ed1.dim_extent_max = fread(fid,1,'*double',byteorder);
 info.ed1.dim_resolution = fread(fid,1,'*double',byteorder);
@@ -242,7 +242,7 @@ info.ed1.high_range = fread(fid,1,'*int32',byteorder);
 info.ed1.low_range = fread(fid,1,'*int32',byteorder);
 info.ed1.user_scale = fread(fid,1,'*double',byteorder);
 info.ed1.user_units = char(fread(fid,20,'*uint8',byteorder)');
-ed1.user_offset = fread(fid,1,'*double',byteorder);
+info.ed1.user_offset = fread(fid,1,'*double',byteorder);
 
 % changes suggested by WFox
 if wfm_version >= 3
@@ -260,7 +260,7 @@ info.ed2.dim_scale = fread(fid,1,'*double',byteorder);
 info.ed2.dim_offset = fread(fid,1,'*double',byteorder);
 info.ed2.dim_size = fread(fid,1,'*uint32',byteorder);
 dummy=fread(fid,20,'*uint8',byteorder);
-info.ed2.units = char(dummy(1:find(dummy==0)));         %read units until NULL string (suggested by Tom Gaudette)
+info.ed2.units = char(dummy(1:find(dummy==0, 1, "first")));         %read units until NULL string (suggested by Tom Gaudette)
 info.ed2.dim_extent_min = fread(fid,1,'*double',byteorder);
 info.ed2.dim_extent_max = fread(fid,1,'*double',byteorder);
 info.ed2.dim_resolution = fread(fid,1,'*double',byteorder);
