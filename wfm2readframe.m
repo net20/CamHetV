@@ -164,7 +164,7 @@ info.horizontal_zoom_position = fread(fid,1,'*float32',byteorder);
 info.vertical_zoom_scale_factor = fread(fid,1,'*double',byteorder);
 info.vertical_zoom_position = fread(fid,1,'*float32',byteorder);
 dummy=fread(fid,32,'*uint8',byteorder);
-info.waveform_label = char(dummy(1:find(dummy==0, 1, "first")));         %read units until NULL string (suggested by Tom Gaudette)
+info.waveform_label = char(dummy(1:(find(dummy==0, 1, "first") - 1))');         %read units until NULL string (suggested by Tom Gaudette)
 info.N = fread(fid,1,'*uint32',byteorder);
 info.size_of_waveform_header = fread(fid,1,'*uint16',byteorder);
 
@@ -194,8 +194,8 @@ info.pixmap_max_value = fread(fid,1,'uint64',byteorder); %storage in a uint64 va
 info.ed1.dim_scale = fread(fid,1,'*double',byteorder);
 info.ed1.dim_offset = fread(fid,1,'*double',byteorder);
 info.ed1.dim_size = fread(fid,1,'*uint32',byteorder);
-dummy=fread(fid,20,'*uint8',byteorder);
-info.ed1.units = char(dummy(1:find(dummy==0, 1, "first")));         %read units until NULL string (suggested by Tom Gaudette)
+dummy = fread(fid,20,'*uint8',byteorder);
+info.ed1.units = char(dummy(1:(find(dummy==0, 1, "first") - 1))');         %read units until NULL string (suggested by Tom Gaudette)
 info.ed1.dim_extent_min = fread(fid,1,'*double',byteorder);
 info.ed1.dim_extent_max = fread(fid,1,'*double',byteorder);
 info.ed1.dim_resolution = fread(fid,1,'*double',byteorder);
@@ -208,8 +208,9 @@ info.ed1.under_range = fread(fid,1,'*int32',byteorder);
 info.ed1.high_range = fread(fid,1,'*int32',byteorder);
 info.ed1.low_range = fread(fid,1,'*int32',byteorder);
 info.ed1.user_scale = fread(fid,1,'*double',byteorder);
-info.ed1.user_units = char(fread(fid,20,'*uint8',byteorder)');
-ed1.user_offset = fread(fid,1,'*double',byteorder);
+dummy = fread(fid,20,'*uint8',byteorder);
+info.ed1.user_units = char(dummy(1:(find(dummy==0, 1, "first") - 1))');  % Read until NUL byte
+info.ed1.user_offset = fread(fid,1,'*double',byteorder);
 
 % changes suggested by WFox
 if wfm_version >= 3
@@ -226,8 +227,8 @@ info.ed1.trig_delay = fread(fid,1,'*double',byteorder);
 info.ed2.dim_scale = fread(fid,1,'*double',byteorder);
 info.ed2.dim_offset = fread(fid,1,'*double',byteorder);
 info.ed2.dim_size = fread(fid,1,'*uint32',byteorder);
-dummy=fread(fid,20,'*uint8',byteorder);
-info.ed2.units = char(dummy(1:find(dummy==0, 1, "first")));         %read units until NULL string (suggested by Tom Gaudette)
+dummy = fread(fid,20,'*uint8',byteorder);
+info.ed2.units = char(dummy(1:(find(dummy==0, 1, "first") - 1))');         %read units until NULL string (suggested by Tom Gaudette)
 info.ed2.dim_extent_min = fread(fid,1,'*double',byteorder);
 info.ed2.dim_extent_max = fread(fid,1,'*double',byteorder);
 info.ed2.dim_resolution = fread(fid,1,'*double',byteorder);
@@ -240,7 +241,8 @@ info.ed2.under_range = fread(fid,1,'*int32',byteorder);
 info.ed2.high_range = fread(fid,1,'*int32',byteorder);
 info.ed2.low_range = fread(fid,1,'*int32',byteorder);
 info.ed2.user_scale = fread(fid,1,'*double',byteorder);
-info.ed2.user_units = char(fread(fid,20,'*uint8',byteorder)');
+dummy = fread(fid,20,'*uint8',byteorder);
+info.ed2.user_units = char(dummy(1:(find(dummy==0, 1, "first") - 1))');  % read until NUL byte
 info.ed2.user_offset = fread(fid,1,'*double',byteorder);
 if wfm_version >= 3
     info.ed2.point_density = fread(fid,1,'*double',byteorder);
@@ -254,14 +256,16 @@ info.ed2.trig_delay = fread(fid,1,'*double',byteorder);
 info.id1.dim_scale = fread(fid,1,'*double',byteorder);
 info.id1.dim_offset = fread(fid,1,'*double',byteorder);
 info.id1.dim_size = fread(fid,1,'*uint32',byteorder);
-info.id1.units = char(fread(fid,20,'*uint8',byteorder)');
+dummy = fread(fid,20,'*uint8',byteorder);
+info.id1.units = char(dummy(1:(find(dummy==0, 1, "first") - 1))');  % read until NUL byte
 info.id1.dim_extent_min = fread(fid,1,'*double',byteorder);
 info.id1.dim_extent_max = fread(fid,1,'*double',byteorder);
 info.id1.dim_resolution = fread(fid,1,'*double',byteorder);
 info.id1.dim_ref_point = fread(fid,1,'*double',byteorder);
 info.id1.spacing = fread(fid,1,'*uint32',byteorder);
 info.id1.user_scale = fread(fid,1,'*double',byteorder);
-info.id1.user_units = char(fread(fid,20,'*uint8',byteorder)');
+dummy = fread(fid,20,'*uint8',byteorder);
+info.id1.user_units = char(dummy(1:(find(dummy==0, 1, "first") - 1))'); % read until NUL byte
 info.id1.user_offset = fread(fid,1,'*double',byteorder);
 if wfm_version >= 3
     info.id1.point_density = fread(fid,1,'*double',byteorder);
@@ -275,14 +279,16 @@ info.id1.trig_delay = fread(fid,1,'*double',byteorder);
 info.id2.dim_scale = fread(fid,1,'*double',byteorder);
 info.id2.dim_offset = fread(fid,1,'*double',byteorder);
 info.id2.dim_size = fread(fid,1,'*uint32',byteorder);
-info.id2.units = char(fread(fid,20,'*uint8',byteorder)');
+dummy = fread(fid,20,'*uint8',byteorder);
+info.id2.units = char(dummy(1:(find(dummy==0, 1, "first") - 1))'); % read until NUL byte
 info.id2.dim_extent_min = fread(fid,1,'*double',byteorder);
 info.id2.dim_extent_max = fread(fid,1,'*double',byteorder);
 info.id2.dim_resolution = fread(fid,1,'*double',byteorder);
 info.id2.dim_ref_point = fread(fid,1,'*double',byteorder);
 info.id2.spacing = fread(fid,1,'*uint32',byteorder);
 info.id2.user_scale = fread(fid,1,'*double',byteorder);
-info.id2.user_units = char(fread(fid,20,'*uint8',byteorder)');
+dummy = fread(fid,20,'*uint8',byteorder);
+info.id2.user_units = char(dummy(1:(find(dummy==0, 1, "first") - 1))');  % read until NUL byte
 info.id2.user_offset = fread(fid,1,'*double',byteorder);
 if wfm_version >= 3
     info.id2.point_density = fread(fid,1,'*double',byteorder);
